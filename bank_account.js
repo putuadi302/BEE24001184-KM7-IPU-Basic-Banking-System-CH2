@@ -1,58 +1,62 @@
-let saldoAwal = 0;
+class Bank {
+    constructor(saldo = 0) {
+        this.saldo = saldo;
+    }
 
-function menu(){
-    let inputUser = +prompt(`saldo anda saat ini adalah Rp.${saldoAwal}
-        1.Tambah Saldo
-        2.Tarik Saldo
-        3.Cek Saldo
-        4.Keluar`);
-        
-    switch(inputUser){
+    tambahSaldo() {
+        let tambah = Number(prompt("Masukkan jumlah saldo yang ingin ditambahkan:"));
+        if (!isNaN(tambah) && tambah > 0) {
+            this.saldo += tambah;
+            alert(`Saldo berhasil ditambahkan. Saldo sekarang: Rp.${this.saldo}`);
+        } else {
+            alert("Input TIDAK VALID!");
+        }
+    }
+
+    kurangSaldo() {
+        let kurang = Number(prompt("Masukkan jumlah saldo yang ingin ditarik:"));
+        if (!isNaN(kurang) && kurang > 0 && kurang <= this.saldo) {
+            this.saldo -= kurang;
+            alert(`Saldo berhasil dikurangkan. Saldo sekarang: Rp.${this.saldo}`);
+        } else if (kurang > this.saldo) {
+            alert("Saldo anda tidak cukup.");
+        } else {
+            alert("Input TIDAK VALID!");
+        }
+    }
+
+    cekSaldo() {
+        alert(`Saldo anda saat ini: Rp.${this.saldo}`);
+    }
+}
+
+function menu(bank) {
+    let inputUser = Number(prompt(`Saldo anda saat ini adalah Rp.${bank.saldo}
+1. Tambah Saldo
+2. Tarik Saldo
+3. Cek Saldo
+4. Keluar`));
+
+    switch (inputUser) {
         case 1:
-            tambahSaldo();
+            bank.tambahSaldo();
             break;
         case 2:
-            kurangSaldo();
+            bank.kurangSaldo();
             break;
         case 3:
-            cekSaldo();
+            bank.cekSaldo();
             break;
         case 4:
-            alert("Terimakasih");
-            return;
+            alert("Terimakasih telah menggunakan layanan kami.");
+            return; // Menghentikan eksekusi menu
         default:
-            alert("Masukkan angka 1 sampai 4");
+            alert("Masukkan angka 1 sampai 4.");
     }
 
-    //memanggil kembali menu setelah operasi selesai
-    menu();
+    // Memanggil kembali menu setelah operasi selesai
+    menu(bank);
 }
 
-
-function tambahSaldo(){
-    let tambah = +prompt("Masukkan jumlah saldo yang ingin ditambahkan :");
-    if(!isNaN(tambah) && tambah > 0){
-        saldoAwal+= tambah;
-        alert(`Saldo berhasil ditambahkan`)
-    }else{
-        alert("TIDAK VALID!");
-    }
-}
-
-function kurangSaldo(){
-    let kurang = +prompt("Masukkan jumlah saldo yang ingin ditarik :");
-    if(!isNaN(kurang) && kurang > 0 && kurang <= saldoAwal){
-        saldoAwal-= kurang;
-        alert(`Saldo berhasil dikurangkan`)
-    }else if(saldoAwal< kurang){
-        alert("Saldo anda tidak cukup");
-    }else{
-        alert("TIDAK VALID!");
-    }
-}
-
-function cekSaldo(){
-    alert(`saldo anda : ${saldoAwal}`);
-}
-
-menu();
+let bank = new Bank();
+menu(bank);
